@@ -1,4 +1,4 @@
-# Shop Service B
+# Shop API Main
 IlyaJuliaDimon
 Веб-сервис для учета заявок на ремонт техники.
 ## Запуск
