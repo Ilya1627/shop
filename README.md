@@ -1,4 +1,4 @@
-# Shop Service
+# Shop Service B
 IlyaJuliaDimon
 Веб-сервис для учета заявок на ремонт техники.
 ## Запуск
