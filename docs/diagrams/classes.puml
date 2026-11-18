@@ -1,0 +1,37 @@
+@startuml
+class Client {
+  +id: int
+  +name: string
+  +phone: string
+}
+
+class Device {
+  +id: int
+  +model: string
+  +serialNumber: string
+}
+
+class Request {
+  +id: int
+  +description: string
+  +status: string
+  +createdAt: date
+}
+
+class Master {
+  +id: int
+  +name: string
+  +specialization: string
+}
+
+Client "1" --> "0..*" Device : владеет
+Client "1" --> "0..*" Request : создает
+Master "1" --> "0..*" Request : выполняет
+Device "1" -- "0..*" Request : относится к
+@enduml@startuml
+class Client {
+  +id: int
+  +name: string
+  +phone: string
+}
+
