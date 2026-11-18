@@ -1,0 +1,15 @@
+@startuml
+actor Клиент as Client
+participant "Express API" as API
+database MySQL
+
+Client -> API : POST /requests (создать заявку)
+API -> MySQL : INSERT INTO requests (client_id, device_id, description)
+MySQL --> API : OK (id заявки)
+
+alt заявка создана
+  API --> Client : 201 Created (JSON с номером заявки)
+else ошибка валидации
+  API --> Client : 400 Bad Request
+end
+@enduml
