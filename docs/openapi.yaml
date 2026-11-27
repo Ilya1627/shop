@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Shop API
-  version: 0.1.0
+  version: 0.2.0
   description: Учебный API каталога товаров
 servers:
   - url: http://localhost:3000
