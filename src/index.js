@@ -1,20 +1,32 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const yaml = require('js-yaml');
+const swaggerUi = require('swagger-ui-express');
 
 const app = express();
 
 const port = process.env.PORT || 4000;
-const pool = require('./db');
+
+// Подключаем функции из нового модуля products.js
+const { getRequests, getRequestById } = require('./products');
+
+// Настройка Swagger UI (добавим чуть позже, пока просто заглушка, чтобы не было ошибки)
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Service Center API',
+      version: '1.0.0',
+      description: 'API для учета заявок',
+    },
+  },
+  apis: [],
+};
 
 // Маршрут для получения всех заявок
 app.get('/requests', async (req, res) => {
   try {
-    const [rows] = await pool.query(
-      'SELECT r.id, r.description, r.status, c.name AS client, m.name AS master ' +
-      'FROM requests r ' +
-      'JOIN clients c ON c.id = r.client_id ' +
-      'LEFT JOIN masters m ON m.id = r.master_id'
-    );
-    res.json(rows);
+    res.json(await getRequests());
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database error' });
@@ -28,23 +40,22 @@ app.get('/requests/:id', async (req, res) => {
     return res.status(400).json({ error: 'Invalid id' });
   }
   try {
-    const [rows] = await pool.query(
-      'SELECT id, description, status, price FROM requests WHERE id = ?', [id]
-    );
-    if (rows.length === 0) {
+    const request = await getRequestById(id);
+    if (!request) {
       return res.status(404).json({ error: 'Not found' });
     }
-    res.json(rows[0]);
+    res.json(request);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Database error' });
   }
 });
+
 app.get('/', (req, res) => res.send('Hello, shop!'));
 app.get('/health', (req, res) => res.json({ status: 'ok', uptime: process.uptime() }));
 app.get('/about', (req, res) => res.send('About'));
-// This is a comment to create a divergent history
+
 const { version } = require('../package.json');
 app.get('/version', (req, res) => res.json({ version }));
+
 app.listen(port, () => console.log(`Server on port ${port}`));
-// This is a change on main for rebase
