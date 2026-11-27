@@ -48,6 +48,7 @@ app.get('/products/:id', async (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
+/** Запуск сервера на указанном порту */
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
