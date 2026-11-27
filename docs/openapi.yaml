@@ -1,0 +1,88 @@
+openapi: 3.0.3
+info:
+  title: Shop API
+  version: 0.1.0
+  description: Учебный API каталога товаров
+servers:
+  - url: http://localhost:3000
+paths:
+  /health:
+    get:
+      summary: Проверка работоспособности
+      responses:
+        '200':
+          description: Сервер работает
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  uptime:
+                    type: number
+                    example: 12.34
+  /version:
+    get:
+      summary: Версия API
+      responses:
+        '200':
+          description: Текущая версия
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    example: 0.1.0
+  /products:
+    get:
+      summary: Список товаров
+      responses:
+        '200':
+          description: Массив товаров
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  /products/{id}:
+    get:
+      summary: Товар по идентификатору
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Товар найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Некорректный идентификатор
+        '404':
+          description: Товар не найден
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: SQL Basics
+        price:
+          type: string
+          example: '450.00'
+        category:
+          type: string
+          example: Books
