@@ -34,3 +34,4 @@ Node.js, Express, MySQL, Python, JSDoc, OpenAPI.
 
 ## Команда
 Julia (GitHub: julia2716)
+Проверено: README позволяет развернуть проект.
